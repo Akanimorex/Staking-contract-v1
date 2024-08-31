@@ -27,6 +27,10 @@ contract StakeERC20 {
         _;
     }
 
+
+     event  StakedSuccessfully(address indexed _address, uint256 indexed _amount);
+    event  WithdrawSuccessfully(address indexed _address);
+
     function stake(uint256 _days, uint256 _amount) external {
         // Sanity checks
         require(msg.sender != address(0), "zero address detected");
@@ -46,6 +50,8 @@ contract StakeERC20 {
         sd.stakedBalance = _amount;
         sd.isComplete = false;
         stakes[msg.sender] = sd;
+
+        emit StakedSuccessfully(msg.sender,_amount);
     }
 
     function withdraw() external {
@@ -67,6 +73,9 @@ contract StakeERC20 {
         uint256 payout = account.stakedBalance + reward;
         account.stakedBalance = 0;
         token.transfer(msg.sender, payout);
+
+        emit WithdrawSuccessfully(msg.sender);
+
     }
 
     function getUserStake() public view returns (uint256) {
