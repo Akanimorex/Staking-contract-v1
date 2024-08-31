@@ -33,7 +33,10 @@ contract StakeEth {
         _;
     }
 
+    event  StakedSuccessfully(address indexed _address, uint256 indexed _amount);
+    event  WithdrawSuccessfully(address indexed _address);
 
+    
 
     function stake(uint256  _days) external payable{
         require(msg.value > 0,"balance too low");
@@ -46,6 +49,9 @@ contract StakeEth {
         sd.unlockTime = _unlockTime; 
         sd.stakedBalance = msg.value;   
         stakes[msg.sender]=sd;
+
+        emit StakedSuccessfully(msg.sender,msg.value);
+
     }
 
   
@@ -69,6 +75,7 @@ contract StakeEth {
         require(success,"failed to unstake and withdraw");
 
         //check if timer has elapsed
+        emit WithdrawSuccessfully(msg.sender);
 
     }
 
