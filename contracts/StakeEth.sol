@@ -17,7 +17,6 @@ contract StakeEth {
         address account;
         uint256 unlockTime;
         uint256 stakedBalance;
-        uint256 expectedInterest;
         bool isComplete;
         // uint256 rewardBalance;
     }
